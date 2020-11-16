@@ -16,22 +16,22 @@
 * coa/data.py - Loads data from files and prepares it for input to the model.
 * coa/selfDef.py - Code for hashtag recommendation baseline co-attention network and loss function.
 
-**To train tweet embedding model:**
-train.py [options]
-
-**To test retrieval-based hashtag recommendation:**
+**To train tweet embedding model:**  
 train.py [options]  
-hashtag_recommendation.py
 
-**To test hashtag recommendation baseline:**
-coa/co_attention.py
+**To test retrieval-based hashtag recommendation:**  
+train.py [options]  
+hashtag_recommendation.py  
 
-**To test hashtag recommendation baseline with image and text vectors from tweet embedding model:**
+**To test hashtag recommendation baseline:**  
+coa/co_attention.py  
+
+**To test hashtag recommendation baseline with image and text vectors from tweet embedding model:**  
 train.py [options]  
 feature_extraction.py  
-coa/co_attention.py --precomp_features
+coa/co_attention.py --precomp_features  
 
-**Latest results:**
+**Latest results:**  
 Tweet embedding model trained as follows:  
 train.py --precomp_images --max_lt_tweets 50 --components image,text,hashtags,user,location --k_vals 1,5,10 --max_similarity --target hashtags  
   
