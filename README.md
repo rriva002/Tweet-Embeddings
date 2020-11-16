@@ -12,9 +12,9 @@
 * hashtag_recommendation.py - Tests retrieval-based hashtag recommendation using a trained tweet embedding model.
 
 **Files for hashtag recommendation baseline:**
-coa/co_attention.py - Trains and tests hashtag recommendation baseline.
-coa/data.py - Loads data from files and prepares it for input to the model.
-coa/selfDef.py - Code for hashtag recommendation baseline co-attention network and loss function.
+* coa/co_attention.py - Trains and tests hashtag recommendation baseline.
+* coa/data.py - Loads data from files and prepares it for input to the model.
+* coa/selfDef.py - Code for hashtag recommendation baseline co-attention network and loss function.
 
 **To train tweet embedding model:**
 train.py [options]
