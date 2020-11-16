@@ -33,16 +33,16 @@ coa/co_attention.py --precomp_features
 
 **Latest results:**  
 Tweet embedding model trained as follows:  
-train.py --precomp_images --max_lt_tweets 50 --components image,text,hashtags,user,location --k_vals 1,5,10 --max_similarity --target hashtags  
+train.py --precomp_images --max_lt_tweets 50 --components image,text,hashtags,user,location --k_vals 1,5,10 --max_violation --max_similarity --target hashtags  
   
 Retrieval-based hashtag recommendation:
-| k   | Accuracy | Precision | Recall | F1   |
-| --- | -------- | --------- | ------ | ---- |
-| 1   | 9.68     | 9.68      | 7.06   | 7.72 |
-| 5   | 15.1     | 3.15      | 10.98  | 4.63 |
-| 10  | 17.32    | 1.85      | 12.54  | 3.1  |
+| k   | Accuracy | Precision | Recall | F1    |
+| --- | -------- | --------- | ------ | ----- |
+| 1   | 21.78    | 21.78     | 15.32  | 16.97 |
+| 5   | 27.02    | 6.22      | 20.08  | 8.94  |
+| 10  | 29.75    | 3.7       | 22.68  | 6.09  |
 
-Baseline with tweet embedding vectors:
+Baseline with tweet embedding vectors (not yet updated with latest tweet embedding model):
 | k   | Accuracy | Precision | Recall | F1   |
 | --- | -------- | --------- | ------ | ---- |
 | 1   | 0.44     | 0.44      | 0.13   | 0.2  |
