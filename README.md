@@ -32,24 +32,37 @@ feature_extraction.py
 coa/co_attention.py --precomp_features  
 
 **Latest results:**  
-Tweet embedding model trained as follows:  
-train.py --precomp_images --max_lt_tweets 50 --components image,text,hashtags,user,location --k_vals 1,5,10 --max_violation --max_similarity --target hashtags  
+
+Retrieval-based hashtag recommendation:  
+train.py --precomp_images --max_lt_tweets 50 --components image,text,hashtags,user,location --k_vals 1,5,10 --max_violation --max_similarity --target average  
+hashtag_recommendation.py
+| k   | Accuracy | Precision | Recall | F1    |
+| --- | -------- | --------- | ------ | ----- |
+| 1   | 14.14    | 14.14     | 10.15  | 11.15 |
+| 5   | 20.1     | 4.58      | 15.04  | 6.61  |
+| 10  | 21.74    | 2.56      | 16.32  | 4.23  |
   
-Retrieval-based hashtag recommendation:
+Retrieval-based hashtag recommendation:  
+train.py --precomp_images --max_lt_tweets 50 --components image,text,hashtags,user,location --k_vals 1,5,10 --max_violation --max_similarity --target hashtags  
+hashtag_recommendation.py
 | k   | Accuracy | Precision | Recall | F1    |
 | --- | -------- | --------- | ------ | ----- |
 | 1   | 21.78    | 21.78     | 15.32  | 16.97 |
 | 5   | 27.02    | 6.22      | 20.08  | 8.94  |
 | 10  | 29.75    | 3.7       | 22.68  | 6.09  |
 
-Baseline with tweet embedding vectors (not yet updated with latest tweet embedding model):
+Baseline with tweet embedding vectors (target hashtags):  
+train.py --precomp_images --max_lt_tweets 50 --components image,text,hashtags,user,location --k_vals 1,5,10 --max_violation --max_similarity --target hashtags  
+feature_extraction.py  
+coa/co_attention.py --precomp_features
 | k   | Accuracy | Precision | Recall | F1   |
 | --- | -------- | --------- | ------ | ---- |
 | 1   | 0.44     | 0.44      | 0.13   | 0.2  |
-| 5   | 8.8      | 1.76      | 6.83   | 2.67 |
-| 10  | 9.03     | 0.93      | 7.04   | 1.58 |
+| 5   | 8.86     | 1.77      | 6.86   | 2.68 |
+| 10  | 9.68     | 1.03      | 7.67   | 1.76 |
 
-Baseline:
+Baseline:  
+coa/co_attention.py
 | k   | Accuracy | Precision | Recall | F1   |
 | --- | -------- | --------- | ------ | ---- |
 | 1   | 10.28    | 10.28     | 7.88   | 8.52 |
