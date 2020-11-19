@@ -115,7 +115,10 @@ def main():
     components = ["image", "text", "hashtags", "user", "location", "time"]
     component_index = dict([(c, i) for i, c in enumerate(components)])
     components = opt.components.split(",")
-    opt.target = components.index(opt.target)
+
+    if opt.target is not None and opt.target != "average":
+        opt.target = components.index(opt.target)
+
     model = VSE(opt, word_model, graph_model)
 
     # optionally resume from a checkpoint

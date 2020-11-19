@@ -343,7 +343,11 @@ class ContrastiveLoss(nn.Module):
     def forward(self, embeddings):
         n_embeds = len(embeddings)
 
-        if self.target is not None:
+        if self.target == "average":
+            target = torch.mean(torch.stack(embeddings), dim=0)
+            ls = [self.__loss(target, embeddings[i]) for i in range(n_embeds)]
+            return sum(ls) / len(embeddings)
+        elif self.target is not None:
             embs = [embeddings[i] for i in range(n_embeds) if i != self.target]
             target = embeddings[self.target]
             ls = [self.__loss(target, embs[i]) for i in range(len(embs))]

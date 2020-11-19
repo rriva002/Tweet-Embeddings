@@ -20,7 +20,7 @@ if __name__ == "__main__":
     model = VSE(opt, word_model, graph_model)
     components = ["image", "text", "hashtags", "user", "location", "time"]
     component_index = dict([(c, i) for i, c in enumerate(components)])
-    components = ["image", "text"]
+    components = ["image", "text", "hashtags"]
 
     for filename in ["data/20-03-01_100000.data", "data/20-03-10_5000.data"]:
         start_date = filename[len("data/"):len("data/") + len("yy-mm-dd")]
