@@ -48,13 +48,17 @@ def all_hashtags(model, word_model, training_filename, test_filename,
 
                         for hashtag in tweet["hashtags"].split():
                             if hashtag not in hashtags:
-                                w_embed = torch.tensor([word_model[hashtag]])
-                                w_embed = w_embed.cuda() if on_gpu else w_embed
-                                hashtag_embed = model.ht_enc([w_embed])
                                 hashtags[hashtag] = len(hashtags)
 
                                 if filename == training_filename:
-                                    hashtag_embeddings.append(hashtag_embed)
+                                    w_emb = torch.tensor([word_model[hashtag]])
+                                    w_emb = w_emb.cuda() if on_gpu else w_emb
+                                    ht_emb = model.ht_enc([w_emb])
+
+                                    if on_gpu:
+                                        ht_emb = ht_emb.clone().detach().cpu()
+
+                                    hashtag_embeddings.append(ht_emb)
 
     hashtag_embeddings = torch.stack(hashtag_embeddings, dim=0).squeeze(1)
     y_test = np.zeros((num_tweets, len(hashtags)), dtype=np.int8)

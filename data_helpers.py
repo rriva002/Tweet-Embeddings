@@ -308,5 +308,5 @@ def precompute_images(filename, bucket, transform):
     for _ in range(10):
         ImagePreprocessor(queue, bucket, cnn, image_dict, transform).start()
 
-        queue.join()
-        torch.save(image_dict, fn)
+    queue.join()
+    torch.save(image_dict, fn)
