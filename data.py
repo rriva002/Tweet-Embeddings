@@ -30,7 +30,11 @@ class TwitterDataset(data.Dataset):
             if filename.endswith(data_ext):
                 index = filename.find("_")
                 date = filename[:index]
-                num = int(filename[index + 1:filename.rfind(".")])
+
+                try:
+                    num = int(filename[index + 1:filename.rfind(".")])
+                except ValueError:
+                    continue
 
                 if start_date == date and num >= num_tweets:
                     data_filename = "/".join([data_dir, filename])
@@ -146,15 +150,18 @@ def collate_fn(data):
     images, texts, hashtag_sets, users, locations, times, ids = zip(*data)
 
     # Merge images and users (convert tuple of 3D tensor to 4D tensor)
-    images = torch.stack(images, 0)
+    images = images if isinstance(images[0], str) else torch.stack(images, 0)
     users = torch.stack(users, 0)
 
     def set_up_targets(tweet_texts, lengths):
-        targets = torch.zeros(len(tweet_texts), max(lengths)).long()
+        if len(lengths) > 0:
+            targets = torch.zeros(len(tweet_texts), max(lengths)).long()
 
-        for i, text in enumerate(tweet_texts):
-            end = lengths[i]
-            targets[i, :end] = text[:end]
+            for i, text in enumerate(tweet_texts):
+                end = lengths[i]
+                targets[i, :end] = text[:end]
+        else:
+            return torch.zeros(0)
 
         return targets
 

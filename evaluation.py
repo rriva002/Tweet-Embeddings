@@ -177,11 +177,11 @@ def evalrank(model_path, start_date, num_tweets, fold5=False, on_gpu=False):
             rsum += sum(r[:-2])
             rt["rt" + ("x" if component == "text" else component[0])] = rtc
 
-            print("Average c2%s Recall: %.1f" % (component[0], ar))
-            print(("Components to %s: " + " ".join(["%.1f"] * len(r))) %
+            print("Average c2%s Recall: %.4f" % (component[0], ar))
+            print(("Components to %s: " + " ".join(["%.4f"] * len(r))) %
                   tuple([component] + list(r)))
 
-        print("rsum: %.1f" % rsum)
+        print("rsum: %.4f" % rsum)
     else:
         # 5fold cross-validation, only for MSCOCO
         results = []
@@ -205,7 +205,7 @@ def evalrank(model_path, start_date, num_tweets, fold5=False, on_gpu=False):
                     key = "rt" + ("x" if component == "text" else component[0])
                     rt[key] = rt0
 
-                print(("Components to %s: " + " ".join(["%.1f"] * len(r))) %
+                print(("Components to %s: " + " ".join(["%.4f"] * len(r))) %
                       tuple([component] + list(r)))
 
             results[-1] += [rsum] + [ar[component] for component in components]
@@ -217,12 +217,12 @@ def evalrank(model_path, start_date, num_tweets, fold5=False, on_gpu=False):
         mean_metrics = tuple(np.array(results).mean(axis=0).flatten())
         index = 5 * len(components)
 
-        print("rsum: %.1f" % (mean_metrics[index] * 3 * len(components)))
+        print("rsum: %.4f" % (mean_metrics[index] * 3 * len(components)))
 
         for i, c in enumerate(components):
-            print("Average c2%s Recall: %.1f" %
+            print("Average c2%s Recall: %.4f" %
                   (c[0], mean_metrics[index + 1 + i]))
-            print(("Components to %s:" + " %.1f" * len(components)) %
+            print(("Components to %s:" + " %.4f" * len(components)) %
                   tuple([c] + list(mean_metrics[i:i + len(components)])))
 
     torch.save(rt, 'ranks.pth.tar')

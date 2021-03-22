@@ -6,7 +6,7 @@ from json import dumps, loads
 from nltk.tokenize import word_tokenize
 from os import remove
 from os.path import exists
-from PIL import Image
+from PIL import Image, UnidentifiedImageError
 from pydrive2.auth import GoogleAuth
 from pydrive2.drive import GoogleDrive
 from random import sample
@@ -44,17 +44,21 @@ class ImagePreprocessor(Thread):
                 if self.__bucket.Object(key).content_length > 0:
                     self.__bucket.download_file(key, filename)
 
-                    image = Image.open(filename).convert("RGB")
-                    image = self.__transform(image).unsqueeze(0)
+                    try:
+                        image = Image.open(filename).convert("RGB")
+                        image = self.__transform(image).unsqueeze(0)
+
+                        if torch.cuda.is_available():
+                            image = image.cuda()
+
+                        features = self.__l2norm(self.__cnn(image))
+                        features = features.clone().detach().cpu()
+                        self.__image_dict[id_str] = features
+                    except UnidentifiedImageError:
+                        pass
 
                     if exists(filename):
                         remove(filename)
-
-                    if torch.cuda.is_available():
-                        image = image.cuda()
-
-                    features = self.__l2norm(self.__cnn(image))
-                    self.__image_dict[id_str] = features.clone().detach().cpu()
 
             self.__queue.task_done()
 
